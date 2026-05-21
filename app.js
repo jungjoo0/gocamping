@@ -46,6 +46,7 @@ document.querySelectorAll(".nav-button").forEach((button) => {
 
 document.querySelector("#refresh-my-button").addEventListener("click", loadItems);
 document.querySelector("#refresh-compare-button").addEventListener("click", loadItems);
+document.querySelector("#random-pick-button").addEventListener("click", randomPickFamilies);
 
 document.querySelector("#save-api-url-button").addEventListener("click", () => {
   state.apiUrl = els.apiUrl.value.trim();
@@ -183,13 +184,43 @@ async function deleteItem(id) {
 async function chooseFamily(itemName, selectedFamily) {
   setLoading(true);
   try {
-    await request("chooseFamily", { itemName, selectedFamily });
+    await saveChoice(itemName, selectedFamily);
     await loadItems();
   } catch (error) {
     showNotice(error.message || "선택을 저장하지 못했습니다.");
   } finally {
     setLoading(false);
   }
+}
+
+async function randomPickFamilies() {
+  const groups = groupItems(state.items);
+  if (!groups.length) {
+    showNotice("랜덤으로 뽑을 장비가 없습니다.");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    for (const group of groups) {
+      const candidates = FAMILIES.filter((family) => group.byFamily[family]);
+      if (!candidates.length) {
+        continue;
+      }
+      const selectedFamily = candidates[Math.floor(Math.random() * candidates.length)];
+      await saveChoice(group.itemName, selectedFamily);
+    }
+    await loadItems();
+    showNotice("랜덤뽑기 완료! 마음에 안 들면 다시 뽑아도 됩니다.");
+  } catch (error) {
+    showNotice(error.message || "랜덤뽑기를 저장하지 못했습니다.");
+  } finally {
+    setLoading(false);
+  }
+}
+
+function saveChoice(itemName, selectedFamily) {
+  return request("chooseFamily", { itemName, selectedFamily });
 }
 
 function setLoading(isLoading) {
@@ -247,11 +278,14 @@ function renderCompareList() {
           <h3 class="compare-title">${escapeHtml(group.itemName)}</h3>
           ${FAMILIES.map((family) => renderFamilyRow(family, group.byFamily[family])).join("")}
           <div class="choice-grid">
-            ${FAMILIES.map((family) => `
-              <button class="choice-button ${selectedFamily === family ? "selected" : ""}" type="button" data-choose="${escapeHtml(group.itemName)}" data-family="${family}">
+            ${FAMILIES.map((family) => {
+              const hasItem = Boolean(group.byFamily[family]);
+              return `
+              <button class="choice-button ${selectedFamily === family ? "selected" : ""}" type="button" data-choose="${escapeHtml(group.itemName)}" data-family="${family}" ${hasItem ? "" : "disabled"}>
                 ${family}
               </button>
-            `).join("")}
+            `;
+            }).join("")}
           </div>
         </article>
       `;

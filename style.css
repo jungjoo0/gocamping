@@ -160,6 +160,7 @@ button:disabled {
 .secondary-button,
 .icon-text-button,
 .text-button,
+.random-button,
 .nav-button,
 .choice-button {
   min-height: 48px;
@@ -327,6 +328,12 @@ input:focus {
   margin: 26px 0 11px;
 }
 
+.heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
 .section-heading h2,
 .settings-panel h2 {
   margin: 0;
@@ -339,6 +346,14 @@ input:focus {
   padding: 0 12px;
   background: rgba(15, 107, 78, 0.08);
   color: var(--primary);
+}
+
+.random-button {
+  min-height: 40px;
+  padding: 0 13px;
+  background: linear-gradient(135deg, var(--accent), var(--coral));
+  color: #2d1b0e;
+  box-shadow: 0 10px 20px rgba(230, 106, 78, 0.18);
 }
 
 .item-list,
@@ -468,6 +483,12 @@ input:focus {
   color: var(--ink);
 }
 
+.choice-button:disabled {
+  background: #edf1ee;
+  color: #9aa6a0;
+  box-shadow: none;
+}
+
 .choice-button.selected {
   border-color: transparent;
   background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -522,6 +543,19 @@ input:focus {
 
   .item-card {
     grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .heading-actions {
+    width: 100%;
+  }
+
+  .heading-actions > button {
+    flex: 1;
   }
 
   .card-actions {
