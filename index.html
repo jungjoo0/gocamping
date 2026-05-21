@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>공용 캠핑 장비 정하기</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <section id="family-screen" class="screen family-screen">
+        <div class="brand-block">
+          <p class="eyebrow">공용 캠핑 장비</p>
+          <h1>어느 가족인가요?</h1>
+          <p class="intro">버너, 랜턴처럼 같이 정할 장비만 간단히 적어요.</p>
+        </div>
+        <div class="family-actions">
+          <button class="family-button" data-family="단비네">단비네</button>
+          <button class="family-button" data-family="세연네">세연네</button>
+        </div>
+      </section>
+
+      <section id="main-screen" class="screen main-screen hidden">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">현재 가족</p>
+            <h1 id="family-title">단비네</h1>
+          </div>
+          <button id="change-family-button" class="icon-text-button" type="button">가족 변경</button>
+        </header>
+
+        <section id="notice" class="notice hidden"></section>
+
+        <section id="view-my" class="view">
+          <form id="item-form" class="item-form">
+            <input type="hidden" id="editing-id">
+            <label>
+              <span>장비명</span>
+              <input id="item-name" name="itemName" type="text" autocomplete="off" placeholder="예: 버너" required>
+            </label>
+            <label>
+              <span>수량</span>
+              <input id="quantity" name="quantity" type="number" inputmode="numeric" min="1" step="1" value="1" required>
+            </label>
+            <div class="form-actions">
+              <button id="save-button" class="primary-button" type="submit">추가</button>
+              <button id="cancel-edit-button" class="secondary-button hidden" type="button">취소</button>
+            </div>
+          </form>
+
+          <div class="section-heading">
+            <h2>내 장비</h2>
+            <button id="refresh-my-button" class="text-button" type="button">새로고침</button>
+          </div>
+          <div id="my-list" class="item-list"></div>
+        </section>
+
+        <section id="view-compare" class="view hidden">
+          <div class="section-heading">
+            <h2>함께 정하기</h2>
+            <button id="refresh-compare-button" class="text-button" type="button">새로고침</button>
+          </div>
+          <div id="compare-list" class="compare-list"></div>
+        </section>
+
+        <section id="view-settings" class="view hidden">
+          <div class="settings-panel">
+            <h2>설정</h2>
+            <label>
+              <span>Apps Script 웹앱 URL</span>
+              <input id="api-url" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+            </label>
+            <button id="save-api-url-button" class="primary-button" type="button">저장</button>
+            <p class="helper-text">URL을 저장하면 이 휴대폰 브라우저에 기억됩니다.</p>
+          </div>
+        </section>
+
+        <nav class="bottom-nav" aria-label="하단 메뉴">
+          <button class="nav-button active" data-view="my" type="button">내 장비</button>
+          <button class="nav-button" data-view="compare" type="button">함께 정하기</button>
+          <button class="nav-button" data-view="settings" type="button">설정</button>
+        </nav>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
