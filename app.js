@@ -1,4 +1,5 @@
 const FAMILIES = ["단비네", "세연네"];
+const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbx33xYnOt5lX4coK5DTrZ7LJ0uaWMte07qyFQ9m6_QAT2NKmN-tfCTBTJEd1HCCqSre/exec";
 const STORAGE_KEYS = {
   family: "camping.family",
   apiUrl: "camping.apiUrl",
@@ -7,7 +8,7 @@ const STORAGE_KEYS = {
 
 const state = {
   family: localStorage.getItem(STORAGE_KEYS.family) || "",
-  apiUrl: localStorage.getItem(STORAGE_KEYS.apiUrl) || "",
+  apiUrl: localStorage.getItem(STORAGE_KEYS.apiUrl) || DEFAULT_API_URL,
   items: [],
   activeView: "my",
   loading: false
